@@ -3,6 +3,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 
+//TODO: NEED TO UPDATE Logic
 exports.getProductById = (req,res,next,id) => {
     Product.findById(id)
     .populate("category")
