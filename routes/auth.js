@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { check , validationResult } = require('express-validator'); // https://express-validator.github.io/docs/
+const { check } = require('express-validator'); // https://express-validator.github.io/docs/
 
 const {signout,signup,signin,isSignedIn, testingtest} = require("../controllers/auth");
 
