@@ -3,6 +3,28 @@ const { check , validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const {expressjwt} = require('express-jwt');
 
+exports.signup = async (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array()[0].msg});
+      }
+
+      try {
+        const user = new User(req.body);
+        await user.save();
+        res.json({
+            name: user.name,
+            email: user.email,
+            id: user._id
+        });
+    } catch (error) {
+        return res.status(400).json({
+            error: `NOT able to save user to DB, ${error}`
+        });
+    }
+
+}
+
 exports.signin = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
