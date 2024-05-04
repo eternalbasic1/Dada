@@ -22,9 +22,9 @@ router.post("/signin",[
 );
 
 
-router.get("signout" , signout);
+router.get("/signout" , signout);
 
-router.get("testroute", isSignedIn , (req,res) => {
+router.get("/testroute", isSignedIn , (req,res) => {
     res.json(req.auth); //In custom Middle ware We EveryTime writes next() keyword but here using express-jwt we never wrote it because expressJwt here already has next() method covered up for us
 })
 
