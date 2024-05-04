@@ -18,10 +18,7 @@ const orderRoutes = require("./routes/order");
 
 //DB Connection
 mongoose.set('strictQuery', false);//not very much useful as of now
-mongoose.connect(process.env.DATABASE,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
+mongoose.connect(process.env.DATABASE).then(() => {
     console.log("DB CONNECTED"); 
 }).catch((err)=>console.log(err));
 
@@ -31,24 +28,25 @@ mongoose.connect(process.env.DATABASE,{
 app.use(bodyParser.json());//it Parse incoming request(/ , /admin , /cart  ) bodies in a middleware before your handlers, available under the req.body property. In req.body property we have everything like req.body.name ,req.body.email , req.body.password etc..
 app.use(cookieParser());// Handles the header and populate req.cookie. If we want to set something into the cookie or if we want to get something form the cookie we use cookie-parser.
 
-app.use(cors());  // Cross-Origin Resource Sharing (CORS) is a security feature implemented by web browsers that blocks web pages from making requests to a different domain than the one that served the web page. This is done to prevent malicious websites from making requests to your web browser on behalf of the user.
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
-    next();
-  });
-var corsOptions = {
-    origin: process.env.REQUEST_ORIGIN,
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// app.use(cors());  // Cross-Origin Resource Sharing (CORS) is a security feature implemented by web browsers that blocks web pages from making requests to a different domain than the one that served the web page. This is done to prevent malicious websites from making requests to your web browser on behalf of the user.
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "*");
+//     next();
+//   });
+// var corsOptions = {
+//     origin: process.env.REQUEST_ORIGIN,
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  // }
 
 // My Routes // Prefixing every route using /api for good practice , in future if you want to edit  route names you can direct come here and edit it which will be reflected to all routes
-app.use("/api", cors(corsOptions),(req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-},authRoutes);
+// app.use("/api", cors(corsOptions),(req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "*");
+//   next();
+// },authRoutes);
 
+app.use("/api", authRoutes);
 app.use("/api",userRoutes);
 app.use("/api",categoryRoutes);
 app.use("/api",productRoutes);

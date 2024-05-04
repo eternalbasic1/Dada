@@ -4,13 +4,13 @@ const express = require('express');
 const router = express.Router();
 const { check , validationResult } = require('express-validator'); // https://express-validator.github.io/docs/
 
-const {signout,signup,signin,isSignedIn} = require("../controllers/auth");
+const {signout,signup,signin,isSignedIn, testingtest} = require("../controllers/auth");
 
-router.post("signup",[
+router.post("/signup",[
     check("name","Name Should be atleast 3 characters").isLength({min:3}),
     check("email","Email is Required").isEmail(),
     check("password","Password should be atleast 3 char").isLength({min: 3}),
-    ],
+    ], 
     signup
 );
 
@@ -27,5 +27,7 @@ router.get("signout" , signout);
 router.get("testroute", isSignedIn , (req,res) => {
     res.json(req.auth); //In custom Middle ware We EveryTime writes next() keyword but here using express-jwt we never wrote it because expressJwt here already has next() method covered up for us
 })
+
+router.get('/test', testingtest)
 
 module.exports = router;
